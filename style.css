@@ -1,0 +1,114 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Main Heading */
+.main-heading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: rgb(17, 7, 7);
+    background-color: lightblue;
+
+    width: 250px;
+    height: 250px;
+
+    margin: 20px auto;
+    padding: 5px;
+
+    border: 2px dashed rgb(89, 89, 77);
+    border-radius: 5%;
+}
+
+/* Web Page */
+.web-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: black;
+    background-color: lightgray;
+
+    width: 250px;
+    height: 250px;
+
+    margin: 20px auto;
+    padding: 5px;
+
+    border: 2px dotted rgb(89, 89, 77);
+    border-radius: 5%;
+}
+
+/* Button */
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: lightcoral;
+    color: #412f3f;
+
+    width: 100px;
+    height: 50px;
+
+    margin: 20px auto;
+
+    border: 2px solid rgb(116, 91, 91);
+    border-radius: 50%;
+}
+
+/* Common Box Styles */
+.box,
+.box1,
+.box4{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 200px;
+    height: 200px;
+
+    background-color: rgb(118, 129, 118);
+
+    border: 2px solid rgb(88, 88, 78);
+    border-radius: 5%;
+
+    color: black;
+}
+
+/* Paragraph inside boxes */
+.box p,
+.box1 p,
+.box4 p{
+    color: rgb(113, 71, 71);
+}
+
+/* Hover Effect */
+.box:hover,
+.box1:hover,
+.box4:hover{
+    background-color: rgb(145, 145, 127);
+}
+
+/* Active Effect */
+.box:active,
+.box1:active,
+.box4:active{
+    background-color: lightpink;
+}
+
+/* Focus Effect */
+.box:focus,
+.box1:focus,
+.box4:focus{
+    background-color: rgb(24, 113, 143);
+}
