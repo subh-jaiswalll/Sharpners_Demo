@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veg Shop</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+    }
+
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      background: green;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: darkgreen;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #eee;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-group button {
+      margin-left: 5px;
+      width: auto;
+      padding: 5px 10px;
+    }
+
+    .count {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Veg Shop </h1>
+
+  <input type="text" id="itemName" placeholder="Enter vegetable name" />
+  <input type="number" id="itemQty" placeholder="Enter quantity" />
+  <input type="number" id="itemPrice" placeholder="Enter price per item" />
+
+  <button onclick="addItem()">ADD To SHOP</button>
+
+  <div class="count" id="count">Total Items: 0</div>
+
+  <ul id="itemList"></ul>
+</div>
+
+<script>
+const API_URL = "https://crudcrud.com/api/428dab2900c649128bd2e9c251ae50c5/vegShop";
+
+// READ (GET)
+function loadItems() {
+  axios.get(API_URL)
+    .then(res => renderItems(res.data));
+}
+
+// SHOW
+function renderItems(items) {
+  const list = document.getElementById("itemList");
+  list.innerHTML = "";
+
+  items.forEach(item => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      <span>
+        ${item.name} | Qty: ${item.qty} | Price: ₹${item.price}
+      </span>
+
+      <div class="btn-group">
+        <button onclick="buyItem('${item._id}', ${item.qty}, '${item.name}', ${item.price})">Buy</button>
+        <button onclick="deleteItem('${item._id}')">Delete</button>
+      </div>
+    `;
+
+    list.appendChild(li);
+  });
+
+  document.getElementById("count").innerText =
+    "Total Items: " + items.length;
+}
+
+// CREATE (POST)
+function addItem() {
+  const name = document.getElementById("itemName").value;
+  const qty = document.getElementById("itemQty").value;
+  const price = document.getElementById("itemPrice").value;
+
+  if (!name || !qty || !price) return alert("Fill all fields");
+
+  axios.post(API_URL, {
+    name,
+    qty: Number(qty),
+    price: Number(price)
+  }).then(() => loadItems());
+
+  document.getElementById("itemName").value = "";
+  document.getElementById("itemQty").value = "";
+  document.getElementById("itemPrice").value = "";
+}
+
+// UPDATE (PUT) 👉 BUY reduces quantity
+function buyItem(id, qty, name, price) {
+  if (qty <= 0) return;
+
+  const updatedQty = qty - 1;
+
+  axios.put(`${API_URL}/${id}`, {
+    name,
+    qty: updatedQty,
+    price
+  }).then(() => loadItems());
+}
+
+// DELETE
+function deleteItem(id) {
+  axios.delete(`${API_URL}/${id}`)
+    .then(() => loadItems());
+}
+
+loadItems();
+</script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.1/axios.min.js"></script>
+<script src="script.js"></script>
+</html>
